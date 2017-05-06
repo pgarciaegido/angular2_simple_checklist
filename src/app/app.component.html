@@ -5,7 +5,7 @@
 
 <!-- List of items -->
 <div id="items" *ngFor="let i of itemsAdded">
-  <input type="checkbox" [(ngModel)]="i.checked">
+  <input type="checkbox" [(ngModel)]="i.checked" [checked]="taskDone()">
   <span [class.crossed]="i.checked">{{i.name}}</span>
   <button (click)="deleteItem(i)">Delete</button>
 </div>

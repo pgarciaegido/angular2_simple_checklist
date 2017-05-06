@@ -6,10 +6,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
-  // {name: 'Milk', done: false}
-  itemsAdded = [];
+
+  itemsAdded;
   item = '';
+
+  constructor() {
+    // If window.localStorage['checklist'] exists, parse info from there.
+    // Otherwise, create new array.
+    try{
+      this.itemsAdded = JSON.parse(window.localStorage['checklist']);
+    } catch(err) {
+      this.itemsAdded = [];
+    }
+  }
+
+  updateLocalStorage(items) {
+    // Updates localStorage. Executed after any modification.
+    window.localStorage['checklist'] = JSON.stringify(items);
+  }
 
   addItem(item:string) {
     // If item is empty, do nothing
@@ -19,11 +33,14 @@ export class AppComponent {
     let itemObject = {};
     itemObject['name'] = item;
     itemObject['done'] = false;
+
     this.itemsAdded.push(itemObject);
     this.item = '';
+
+    this.updateLocalStorage(this.itemsAdded);
   }
 
-  addItemEnter(item, event){
+  addItemEnter(item:string, event){
     if (event.keyCode === 13)
       this.addItem(item);
   }
@@ -33,5 +50,15 @@ export class AppComponent {
     this.itemsAdded = this.itemsAdded.filter((i) => {
       if (i.name !== item.name) return i
     })
+
+    this.updateLocalStorage(this.itemsAdded);
+  }
+
+  taskDone() {
+    // Sets done either to true or false when checked
+    this.itemsAdded.checked ? this.itemsAdded.done = true
+                            : this.itemsAdded.done = false;
+
+    this.updateLocalStorage(this.itemsAdded);
   }
 }
