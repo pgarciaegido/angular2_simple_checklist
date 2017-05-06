@@ -3,10 +3,13 @@
 <!-- If there is nothing added to the list yet -->
 <p *ngIf="!itemsAdded.length">Nothing added</p>
 
+<!-- List of items -->
 <div *ngFor="let i of itemsAdded">
   <input type="checkbox" [(ngModel)]="i.checked">
-  <span>{{i.name}}</span>
-  <!-- <button (click)="deleteItem(i)">Delete</button> -->
+  <span [class.crossed]="i.checked">{{i.name}}</span>
+  <button (click)="deleteItem(i)">Delete</button>
 </div>
+
+<!-- Add item -->
 <input type="text" [(ngModel)]="item" />
 <button (click)="addItem(item)">Add item</button>

@@ -12,18 +12,20 @@ export class AppComponent {
   item = '';
 
   addItem(item:string) {
+    // If item is empty, do nothing
     if (item === '') return
 
+    // Create object, and append it to itemsAdded
     let itemObject = {};
     itemObject['name'] = item;
     itemObject['done'] = false;
     this.itemsAdded.push(itemObject);
-    console.log(this.itemsAdded);
   }
 
-  // deleteItem(item:string) {
-  //   let index = this.itemsAdded.indexOf(item);
-  //   this.itemsAdded.splice(index, 1);
-  //   console.log(this.itemsAdded);
-  // }
+  deleteItem(item) {
+    // Remove element from itemsAdded using filter.
+    this.itemsAdded = this.itemsAdded.filter((i) => {
+      if (i.name !== item.name) return i
+    })
+  }
 }
