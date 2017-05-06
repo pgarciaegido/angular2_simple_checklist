@@ -1,3 +1,12 @@
-<h1>
-  {{title}}
-</h1>
+<h1>Angular2 Basic Checklist</h1>
+
+<!-- If there is nothing added to the list yet -->
+<p *ngIf="!itemsAdded.length">Nothing added</p>
+
+<div *ngFor="let i of itemsAdded">
+  <input type="checkbox" [(ngModel)]="i.checked">
+  <span>{{i.name}}</span>
+  <!-- <button (click)="deleteItem(i)">Delete</button> -->
+</div>
+<input type="text" [(ngModel)]="item" />
+<button (click)="addItem(item)">Add item</button>
