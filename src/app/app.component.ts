@@ -20,6 +20,12 @@ export class AppComponent {
     itemObject['name'] = item;
     itemObject['done'] = false;
     this.itemsAdded.push(itemObject);
+    this.item = '';
+  }
+
+  addItemEnter(item, event){
+    if (event.keyCode === 13)
+      this.addItem(item);
   }
 
   deleteItem(item) {
