@@ -26,10 +26,10 @@ export class AppComponent {
   }
 
   addItem(item:string) {
-    // If item is empty, do nothing
+    // If item is empty, does nothing
     if (item === '') return
 
-    // Create object, and append it to itemsAdded
+    // Create object, and appends it to itemsAdded
     let itemObject = {};
     itemObject['name'] = item;
     itemObject['done'] = false;
