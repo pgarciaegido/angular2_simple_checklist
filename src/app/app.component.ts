@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
 
+// Creates sort of an object template so typescript could help us with possible bugs
+interface Item {
+  name: string;
+  done: boolean;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,7 +13,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  itemsAdded;
+  private itemsAdded: Item[];
   item = '';
 
   constructor() {
@@ -25,24 +31,21 @@ export class AppComponent {
     window.localStorage['checklist'] = JSON.stringify(items);
   }
 
-  addItem(item:string) {
-    // If item is empty, does nothing
-    if (item === '') return
 
-    // Create object, and appends it to itemsAdded
-    let itemObject = {};
-    itemObject['name'] = item;
-    itemObject['done'] = false;
+  addItem(name:string) {
+    // If name is empty, does nothing
+    if (name === '') return
 
-    this.itemsAdded.push(itemObject);
+    // Append given name and done false
+    this.itemsAdded.push({name, done: false});
     this.item = '';
 
     this.updateLocalStorage(this.itemsAdded);
   }
 
-  addItemEnter(item:string, event){
+  addItemEnter(name:string, event){
     if (event.keyCode === 13)
-      this.addItem(item);
+      this.addItem(name);
   }
 
   deleteItem(item) {
@@ -55,10 +58,6 @@ export class AppComponent {
   }
 
   taskDone() {
-    // Sets done either to true or false when checked
-    this.itemsAdded.checked ? this.itemsAdded.done = true
-                            : this.itemsAdded.done = false;
-
     this.updateLocalStorage(this.itemsAdded);
   }
 }
