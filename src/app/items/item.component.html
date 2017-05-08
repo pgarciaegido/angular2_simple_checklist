@@ -1,0 +1,8 @@
+<!-- List of items -->
+<div id="items">
+  <!-- taskDone only updates localStorage -->
+  <input type="checkbox" [(ngModel)]="item.checked" [checked]="fireUpdate()">
+  <!-- i.checked comes directly from checked html attribute. No method needed -->
+  <span [class.crossed]="item.checked">{{item.name}}</span>
+  <button (click)="fireRemove()">Delete</button>
+</div>

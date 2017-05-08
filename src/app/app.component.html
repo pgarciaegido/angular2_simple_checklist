@@ -3,14 +3,9 @@
 <!-- If there is nothing added to the list yet -->
 <p *ngIf="!itemsAdded.length">Nothing added</p>
 
-<!-- List of items -->
-<div id="items" *ngFor="let i of itemsAdded">
-  <!-- taskDone only updates localStorage -->
-  <input type="checkbox" [(ngModel)]="i.checked" [checked]="taskDone()">
-  <!-- i.checked comes directly from checked html attribute. No method needed -->
-  <span [class.crossed]="i.checked">{{i.name}}</span>
-  <button (click)="deleteItem(i)">Delete</button>
-</div>
+<item *ngFor="let item of itemsAdded"
+      [item]="item" (remove)="deleteItem(item)"
+      (update)="taskDone()"></item>
 
 <!-- Add item -->
 <div id="add-item">

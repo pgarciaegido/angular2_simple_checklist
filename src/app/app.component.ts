@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
-
-// Creates sort of an object template so typescript could help us with possible bugs
-interface Item {
-  name: string;
-  done: boolean;
-}
+import { Item } from './items/item.model';
 
 @Component({
   selector: 'app-root',
@@ -60,4 +55,5 @@ export class AppComponent {
   taskDone() {
     this.updateLocalStorage(this.itemsAdded);
   }
+
 }
