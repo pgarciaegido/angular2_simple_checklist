@@ -36,9 +36,11 @@ export class AppComponent  {
     )
   }
 
-  addItemEnter(description:string, event){
-    if (event.keyCode === 13)
+  addItemEnter(description:string, event, input){
+    if (event.keyCode === 13){
       this.addItem(description);
+      input.value = '';
+    }
   }
 
   deleteItem(itemId:number) {

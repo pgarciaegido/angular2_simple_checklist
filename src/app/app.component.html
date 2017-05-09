@@ -14,6 +14,6 @@
 
 <!-- Add item -->
 <div id="add-item">
-  <input type="text" (keydown)="addItemEnter(item, $event)" [(ngModel)]="item" />
-  <button (click)="addItem(item)">Add item</button>
+  <input #input type="text" (keydown)="addItemEnter(item, $event, input)" [(ngModel)]="item" />
+  <button (click)="addItem(item); input.value=''">Add item</button>
 </div>
