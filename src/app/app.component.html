@@ -6,10 +6,10 @@
 <!-- List of items -->
 <div id="items" *ngFor="let i of itemsAdded">
   <!-- taskDone only updates localStorage -->
-  <input type="checkbox" [(ngModel)]="i.checked" [checked]="taskDone()">
+  <input type="checkbox" [(ngModel)]="i.checked">
   <!-- i.checked comes directly from checked html attribute. No method needed -->
-  <span [class.crossed]="i.checked">{{i.name}}</span>
-  <button (click)="deleteItem(i)">Delete</button>
+  <span [class.crossed]="i.checked">{{i.description}}</span>
+  <button (click)="deleteItem(i.id)">Delete</button>
 </div>
 
 <!-- Add item -->

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { Http } from '@angular/http';
 
 // Creates sort of an object template so typescript could help us with possible bugs
 interface Item {
-  name: string;
-  done: boolean;
+  description: string;
+  checked: boolean;
+  id?: number;
 }
 
 @Component({
@@ -13,51 +15,53 @@ interface Item {
 })
 export class AppComponent {
 
-  private itemsAdded: Item[];
-  item = '';
+  private itemsAdded: Item[] = [];
 
-  constructor() {
-    // If window.localStorage['checklist'] exists, parse info from there.
-    // Otherwise, create new array.
-    try{
-      this.itemsAdded = JSON.parse(window.localStorage['checklist']);
-    } catch(err) {
-      this.itemsAdded = [];
-    }
-  }
+  // Backend url
+  url:string = 'http://localhost:8080/items/';
 
-  updateLocalStorage(items) {
-    // Updates localStorage. Executed after any modification.
-    window.localStorage['checklist'] = JSON.stringify(items);
+  constructor(private http: Http) {
+    this.http.get(this.url).subscribe(
+      response => {
+        // Formates the response
+        this.itemsAdded = response.json();
+      },
+      error => console.log(error)
+    )
   }
 
 
-  addItem(name:string) {
-    // If name is empty, does nothing
-    if (name === '') return
+  addItem(description:string) {
+    // If description is empty, does nothing
+    if (description === '') return
 
-    // Append given name and done false
-    this.itemsAdded.push({name, done: false});
-    this.item = '';
+    // Append given description and checked false
+    let data = { "description": description, "checked": false };
 
-    this.updateLocalStorage(this.itemsAdded);
+    this.http.post(this.url, data).subscribe(
+      response => {
+        this.itemsAdded.push(data);
+      },
+      error => console.log(error)
+    );
+
   }
 
-  addItemEnter(name:string, event){
+  addItemEnter(description:string, event){
     if (event.keyCode === 13)
-      this.addItem(name);
+      this.addItem(description);
   }
 
-  deleteItem(item) {
+  deleteItem(itemId:number) {
     // Remove element from itemsAdded using filter.
-    this.itemsAdded = this.itemsAdded.filter((i) => {
-      if (i.name !== item.name) return i
-    })
-
-    this.updateLocalStorage(this.itemsAdded);
-  }
-
-  taskDone() {
-    this.updateLocalStorage(this.itemsAdded);
+    let deleteUrl = this.url + itemId;
+    this.http.delete(deleteUrl).subscribe(
+      response => {
+        this.itemsAdded = this.itemsAdded.filter((i) => {
+            if (i.id !== itemId) return i
+        })
+      },
+      error => console.log(error)
+    )
   }
 }
