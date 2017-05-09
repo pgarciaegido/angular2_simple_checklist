@@ -3,9 +3,11 @@
 <!-- If there is nothing added to the list yet -->
 <p *ngIf="!itemsAdded.length">Nothing added</p>
 
+<!-- item component  -->
 <item *ngFor="let item of itemsAdded"
       [item]="item" (remove)="deleteItem(item)"
       (update)="taskDone()"></item>
+      <!-- update and remove are EventEmitters throw from child component -->
 
 <!-- Add item -->
 <div id="add-item">
